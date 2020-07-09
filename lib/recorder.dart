@@ -268,8 +268,7 @@ class _RecorderState extends State<Recorder>
   Future _stopRecording() async {
     var result = await _recorder.stop();
     final snackbar = SnackBar(
-      content: Text('${_recording?.path ?? "-"}'),
-      action: SnackBarAction(label: "view", onPressed: null),
+      content: Text("recording saved at: " + '${_recording?.path ?? "-"}'),
     );
     setState(() {
       _recording = result;
