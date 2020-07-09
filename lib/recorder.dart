@@ -20,7 +20,7 @@ class _RecorderState extends State<Recorder>
   Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
-  Curve _curve = Curves.easeOut;
+  Curve _curve = Curves.bounceIn;
   double _fabHeight = 56.0;
 //Fab Variable
 
@@ -54,7 +54,7 @@ class _RecorderState extends State<Recorder>
     ));
     _translateButton = Tween<double>(
       begin: _fabHeight,
-      end: -14.0,
+      end: -20.0,
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Interval(
@@ -100,6 +100,7 @@ class _RecorderState extends State<Recorder>
   Widget pause() {
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Colors.black,
         onPressed: () async {
           switch (_recording.status) {
             case RecordingStatus.Recording:
@@ -123,6 +124,7 @@ class _RecorderState extends State<Recorder>
   Widget resumes() {
     return Container(
       child: FloatingActionButton(
+        backgroundColor: Colors.black,
         onPressed: () async {
           switch (_recording.status) {
             case RecordingStatus.Recording:

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,13 +22,8 @@ class _XylophoneAppState extends State<XylophoneApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-      
         themeMode: ThemeMode.dark,
         home: Scaffold(
-          
-          appBar: AppBar(
-            actions: [],
-          ),
           body: Xylophone(),
           floatingActionButton: Recorder(),
         ));
@@ -42,14 +39,15 @@ class _XylophoneState extends State<Xylophone> {
   final player = AudioCache();
   @override
   void initState() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.landscapeLeft,DeviceOrientation.landscapeRight]);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height -
-        Scaffold.of(context).appBarMaxHeight;
+    double height = MediaQuery.of(context).size.height;
+    // -Scaffold.of(context).appBarMaxHeight;
 
     return Container(
         height: height,
