@@ -105,11 +105,10 @@ class _RecorderState extends State<Recorder>
         backgroundColor: Colors.white,
         onPressed: () async {
           switch (_recording.status) {
-            case RecordingStatus.Recording:
+            case RecordingStatus.Paused:
               {
-                _pauseRecording();
                 setState(() {
-                  isPaused = !isPaused;
+                  _resumeRecording();
                 });
                 break;
               }
@@ -118,7 +117,7 @@ class _RecorderState extends State<Recorder>
               break;
           }
         },
-        tooltip: 'pause',
+        tooltip: 'resume',
         child: Icon(Icons.play_arrow),
       ),
     );
@@ -130,19 +129,16 @@ class _RecorderState extends State<Recorder>
         backgroundColor: Colors.white,
         onPressed: () async {
           switch (_recording.status) {
-            case RecordingStatus.Paused:
+            case RecordingStatus.Recording:
               {
-                _resumeRecording();
-                setState(() {
-                  isPaused = !isPaused;
-                });
+                _pauseRecording();
                 break;
               }
             default:
               break;
           }
         },
-        tooltip: "resume",
+        tooltip: "pause",
         child: Icon(Icons.pause),
       ),
     );
@@ -238,23 +234,27 @@ class _RecorderState extends State<Recorder>
     // AudioFormat is optional, if given value, will overwrite path extension when there is conflicts.
 
     _recorder = FlutterAudioRecorder(customPath,
-        audioFormat: AudioFormat.WAV, sampleRate: 22050);
+        audioFormat: AudioFormat.WAV, sampleRate: 44100);
     await _recorder.initialized;
   }
 
   Future _prepare() async {
     var hasPermission = await FlutterAudioRecorder.hasPermissions;
-    if (hasPermission) {
-      await _init();
-      var result = await _recorder.current();
-      setState(() {
-        _recording = result;
-        _alert = "";
-      });
-    } else {
-      setState(() {
-        _alert = "Permission Required.";
-      });
+    try {
+      if (hasPermission) {
+        await _init();
+        var result = await _recorder.current();
+        setState(() {
+          _recording = result;
+          _alert = "";
+        });
+      } else {
+        setState(() {
+          _alert = "Permission Required.";
+        });
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -304,15 +304,20 @@ class _RecorderState extends State<Recorder>
     return data;
   }
 
-  _pauseRecording() {
-    setState(() async {
-      await _recorder.pause();
+  _pauseRecording() async {
+    await _recorder.pause();
+    print("$_recordingStatus");
+    setState(() {
+      isPaused = !isPaused;
     });
   }
 
   _resumeRecording() async {
-    setState(() async {
-      await _recorder.resume();
+    await _recorder.resume();
+    print("$_recordingStatus");
+
+    setState(() {
+      isPaused = !isPaused;
     });
   }
   // void _play() {
