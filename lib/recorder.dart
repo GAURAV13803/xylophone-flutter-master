@@ -104,12 +104,11 @@ class _RecorderState extends State<Recorder>
       child: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () async {
-          switch (_recording.status) {
+          switch (_recordingStatus) {
             case RecordingStatus.Paused:
               {
-                setState(() {
-                  _resumeRecording();
-                });
+                _resumeRecording();
+
                 break;
               }
 
@@ -132,6 +131,7 @@ class _RecorderState extends State<Recorder>
             case RecordingStatus.Recording:
               {
                 _pauseRecording();
+
                 break;
               }
             default:
@@ -308,6 +308,7 @@ class _RecorderState extends State<Recorder>
     await _recorder.pause();
     print("$_recordingStatus");
     setState(() {
+      _recordingStatus = RecordingStatus.Paused;
       isPaused = !isPaused;
     });
   }
