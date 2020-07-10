@@ -23,6 +23,7 @@ class _XylophoneAppState extends State<XylophoneApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         themeMode: ThemeMode.dark,
+        darkTheme: ThemeData.dark(),
         home: Scaffold(
           body: Xylophone(),
           floatingActionButton: Recorder(),
@@ -40,23 +41,23 @@ class _XylophoneState extends State<Xylophone> {
   @override
   void initState() {
     SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeLeft,DeviceOrientation.landscapeRight]);
+        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
+    double height = MediaQuery.of(context).size.width;
     // -Scaffold.of(context).appBarMaxHeight;
 
     return Container(
         height: height,
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Container(
-              height: height / 7,
+              width: height / 7,
               child: FlatButton(
                 onPressed: () {
                   player.play('note1.wav');
@@ -66,7 +67,7 @@ class _XylophoneState extends State<Xylophone> {
               ),
             ),
             Container(
-              height: height / 7,
+              width: height / 7,
               child: FlatButton(
                 onPressed: () {
                   player.play('note2.wav');
@@ -76,7 +77,7 @@ class _XylophoneState extends State<Xylophone> {
               ),
             ),
             Container(
-              height: height / 7,
+              width: height / 7,
               child: FlatButton(
                 onPressed: () {
                   player.play('note3.wav');
@@ -86,7 +87,7 @@ class _XylophoneState extends State<Xylophone> {
               ),
             ),
             Container(
-              height: height / 7,
+              width: height / 7,
               child: FlatButton(
                 onPressed: () {
                   player.play('note4.wav');
@@ -96,7 +97,7 @@ class _XylophoneState extends State<Xylophone> {
               ),
             ),
             Container(
-              height: height / 7,
+              width: height / 7,
               child: FlatButton(
                 onPressed: () {
                   player.play('note5.wav');
@@ -106,7 +107,7 @@ class _XylophoneState extends State<Xylophone> {
               ),
             ),
             Container(
-              height: height / 7,
+              width: height / 7,
               child: FlatButton(
                 onPressed: () {
                   player.play('note6.wav');
@@ -116,7 +117,7 @@ class _XylophoneState extends State<Xylophone> {
               ),
             ),
             Container(
-              height: height / 7,
+              width: height / 7,
               child: FlatButton(
                 onPressed: () {
                   player.play('note7.wav');

@@ -26,7 +26,9 @@ class _RecorderState extends State<Recorder>
 
 //recorder variable
   FlutterAudioRecorder _recorder;
+  RecordingStatus _recordingStatus;
   Recording _recording;
+  bool isPaused = true;
   Timer _t;
   String _alert;
 //recorder variable
@@ -100,17 +102,18 @@ class _RecorderState extends State<Recorder>
   Widget pause() {
     return Container(
       child: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         onPressed: () async {
           switch (_recording.status) {
             case RecordingStatus.Recording:
               {
-                await _recorder.pause();
+                _pauseRecording();
                 setState(() {
                   isPaused = !isPaused;
                 });
                 break;
               }
+
             default:
               break;
           }
@@ -124,12 +127,12 @@ class _RecorderState extends State<Recorder>
   Widget resumes() {
     return Container(
       child: FloatingActionButton(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         onPressed: () async {
           switch (_recording.status) {
-            case RecordingStatus.Recording:
+            case RecordingStatus.Paused:
               {
-                await _recorder.resume();
+                _resumeRecording();
                 setState(() {
                   isPaused = !isPaused;
                 });
@@ -301,13 +304,23 @@ class _RecorderState extends State<Recorder>
     return data;
   }
 
+  _pauseRecording() {
+    setState(() async {
+      await _recorder.pause();
+    });
+  }
+
+  _resumeRecording() async {
+    setState(() async {
+      await _recorder.resume();
+    });
+  }
   // void _play() {
   //   AudioPlayer player = AudioPlayer();
   //   player.play(_recording.path, isLocal: true);
   // }
 
 //Classes for recorder
-  bool isPaused = true;
   @override
   Widget build(BuildContext context) {
     return Column(
