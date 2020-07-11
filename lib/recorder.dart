@@ -334,6 +334,7 @@ class _RecorderState extends State<Recorder>
 
   _resumeRecording() async {
     await _recorder.resume();
+    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
     print("$_recordingStatus");
 
     setState(() {
@@ -349,6 +350,43 @@ class _RecorderState extends State<Recorder>
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
+      Positioned(
+        right: 5,
+        bottom: 7,
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: <Widget>[
+              // Transform(
+              //   transform: Matrix4.translationValues(
+              //     0.0,
+              //     _translateButton.value * 3.0,
+              //     0.0,
+              //   ),
+              //   child: record(),
+              // ),
+              Transform(
+                transform: Matrix4.translationValues(
+                  0.0,
+                  _translateButton.value * 1.5,
+                  0.0,
+                ),
+                child: isRecording ? record() : stop(),
+              ),
+              Transform(
+                transform: Matrix4.translationValues(
+                  0.0,
+                  _translateButton.value * 0.7,
+                  0.0,
+                ),
+                child: isPaused ? pause() : resumes(),
+              ),
+              toggle(),
+            ],
+          ),
+        ),
+      ),
       Positioned(
           left: 0.0,
           //top: 120,
@@ -379,44 +417,6 @@ class _RecorderState extends State<Recorder>
               ),
             ),
           )),
-    
-    Positioned(
-      right: 15.0,
-      //top: 120,
-      bottom: 20,
-      child: Align(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: <Widget>[
-            // Transform(
-            //   transform: Matrix4.translationValues(
-            //     0.0,
-            //     _translateButton.value * 3.0,
-            //     0.0,
-            //   ),
-            //   child: record(),
-            // ),
-            Transform(
-              transform: Matrix4.translationValues(
-                0.0,
-                _translateButton.value * 2.0,
-                0.0,
-              ),
-              child: isRecording ? record() : stop(),
-            ),
-            Transform(
-              transform: Matrix4.translationValues(
-                0.0,
-                _translateButton.value,
-                0.0,
-              ),
-              child: isPaused ? pause() : resumes(),
-            ),
-            toggle(),
-          ],
-        ),
-      ),
-    ),
     ]);
   }
 }
