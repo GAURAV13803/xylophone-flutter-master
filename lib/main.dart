@@ -4,6 +4,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:xylophone/recorder.dart';
 
 void main() {
@@ -26,7 +27,7 @@ class _XylophoneAppState extends State<XylophoneApp> {
         darkTheme: ThemeData.dark(),
         home: Scaffold(
           body: Xylophone(),
-          floatingActionButton: Recorder(),
+          //      floatingActionButton: Recorder(),
         ));
   }
 }
@@ -38,6 +39,7 @@ class Xylophone extends StatefulWidget {
 
 class _XylophoneState extends State<Xylophone> {
   final player = AudioCache();
+
   @override
   void initState() {
     SystemChrome.setPreferredOrientations(
@@ -46,103 +48,101 @@ class _XylophoneState extends State<Xylophone> {
   }
 
   @override
+  void dispose() async {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.width;
     // -Scaffold.of(context).appBarMaxHeight;
 
-    return Stack(
-      children: [
-        Container(
-            height: height,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  width: height / 7,
-                  child: FlatButton(
-                    onPressed: () {
-                      player.play('note1.wav');
-                    },
-                    color: Colors.red,
-                    child: Text(""),
-                  ),
+    return Container(
+      height: height,
+      child: Stack(
+        overflow: Overflow.clip,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Container(
+                width: height / 7,
+                child: FlatButton(
+                  onPressed: () {
+                    player.play('note1.wav');
+                  },
+                  color: Colors.red,
+                  child: Text(""),
                 ),
-                Container(
-                  width: height / 7,
-                  child: FlatButton(
-                    onPressed: () {
-                      player.play('note2.wav');
-                    },
-                    color: Colors.orange,
-                    child: Text(""),
-                  ),
-                ),
-                Container(
-                  width: height / 7,
-                  child: FlatButton(
-                    onPressed: () {
-                      player.play('note3.wav');
-                    },
-                    color: Colors.yellow,
-                    child: Text(""),
-                  ),
-                ),
-                Container(
-                  width: height / 7,
-                  child: FlatButton(
-                    onPressed: () {
-                      player.play('note4.wav');
-                    },
-                    color: Colors.green,
-                    child: Text(""),
-                  ),
-                ),
-                Container(
-                  width: height / 7,
-                  child: FlatButton(
-                    onPressed: () {
-                      player.play('note5.wav');
-                    },
-                    color: Colors.lightGreen,
-                    child: Text(""),
-                  ),
-                ),
-                Container(
-                  width: height / 7,
-                  child: FlatButton(
-                    onPressed: () {
-                      player.play('note6.wav');
-                    },
-                    color: Colors.blue,
-                    child: Text(""),
-                  ),
-                ),
-                Container(
-                  width: height / 7,
-                  child: FlatButton(
-                    onPressed: () {
-                      player.play('note7.wav');
-                    },
-                    color: Colors.purple[300],
-                    child: Text(""),
-                  ),
-                ),
-              ],
-            )),
-        Container(
-            decoration: BoxDecoration(
-              color: Color(
-                0xCC000000,
               ),
-              backgroundBlendMode: BlendMode.softLight,
-            ),
-            alignment: Alignment.topRight,
-            //color: Color(0xCC000000),
-            // width: 65.0,
-            // height: 50.0,
-            child: Center(child: Text("00:00"))),
-      ],
+              Container(
+                width: height / 7,
+                child: FlatButton(
+                  onPressed: () {
+                    player.play('note2.wav');
+                  },
+                  color: Colors.orange,
+                  child: Text(""),
+                ),
+              ),
+              Container(
+                width: height / 7,
+                child: FlatButton(
+                  onPressed: () {
+                    player.play('note3.wav');
+                  },
+                  color: Colors.yellow,
+                  child: Text(""),
+                ),
+              ),
+              Container(
+                width: height / 7,
+                child: FlatButton(
+                  onPressed: () {
+                    player.play('note4.wav');
+                  },
+                  color: Colors.green,
+                  child: Text(""),
+                ),
+              ),
+              Container(
+                width: height / 7,
+                child: FlatButton(
+                  onPressed: () {
+                    player.play('note5.wav');
+                  },
+                  color: Colors.lightGreen,
+                  child: Text(""),
+                ),
+              ),
+              Container(
+                width: height / 7,
+                child: FlatButton(
+                  onPressed: () {
+                    player.play('note6.wav');
+                  },
+                  color: Colors.blue,
+                  child: Text(""),
+                ),
+              ),
+              Container(
+                width: height / 7,
+                child: FlatButton(
+                  onPressed: () {
+                    player.play('note7.wav');
+                  },
+                  color: Colors.purple[300],
+                  child: Text(""),
+                ),
+              ),
+            ],
+          ),
+          Recorder(),
+        ],
+      ),
     );
+    //
   }
 }

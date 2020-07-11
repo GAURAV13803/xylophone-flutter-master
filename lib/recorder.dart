@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class Recorder extends StatefulWidget {
   @override
@@ -32,10 +33,19 @@ class _RecorderState extends State<Recorder>
   Timer _t;
   String _alert;
 //recorder variable
-
+  final StopWatchTimer _stopWatchTimer = StopWatchTimer(
+    onChange: (value) => print('onChange $value'),
+    onChangeSecond: (value) => print('onChangeSecond $value'),
+    onChangeMinute: (value) => print('onChangeMinute $value'),
+  );
 //classes for FAB
   @override
   initState() {
+    _stopWatchTimer.rawTime.listen((value) =>
+        print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));
+    _stopWatchTimer.minuteTime.listen((value) => print('minuteTime $value'));
+    _stopWatchTimer.secondTime.listen((value) => print('secondTime $value'));
+
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500))
           ..addListener(() {
@@ -74,7 +84,9 @@ class _RecorderState extends State<Recorder>
   @override
   dispose() {
     _animationController.dispose();
+
     super.dispose();
+    _stopWatchTimer.dispose();
   }
 
   animate() {
@@ -126,7 +138,7 @@ class _RecorderState extends State<Recorder>
     return Container(
       child: FloatingActionButton(
         backgroundColor: Colors.white,
-        onPressed: () async {
+        onPressed: () {
           switch (_recording.status) {
             case RecordingStatus.Recording:
               {
@@ -263,6 +275,8 @@ class _RecorderState extends State<Recorder>
   Future _startRecording() async {
     await _recorder.start();
     var current = await _recorder.current();
+
+    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
     setState(() {
       _recording = current;
       isRecording = false;
@@ -272,9 +286,12 @@ class _RecorderState extends State<Recorder>
 
   Future _stopRecording() async {
     var result = await _recorder.stop();
+    _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+
     final snackbar = SnackBar(
       content: Text("recording saved at: " + '${_recording?.path ?? "-"}'),
     );
+    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     setState(() {
       _recording = result;
       isRecording = true;
@@ -306,6 +323,8 @@ class _RecorderState extends State<Recorder>
 
   _pauseRecording() async {
     await _recorder.pause();
+    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+
     print("$_recordingStatus");
     setState(() {
       _recordingStatus = RecordingStatus.Paused;
@@ -329,35 +348,75 @@ class _RecorderState extends State<Recorder>
 //Classes for recorder
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        // Transform(
-        //   transform: Matrix4.translationValues(
-        //     0.0,
-        //     _translateButton.value * 3.0,
-        //     0.0,
-        //   ),
-        //   child: record(),
-        // ),
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value * 2.0,
-            0.0,
-          ),
-          child: isRecording ? record() : stop(),
+    return Stack(children: [
+      Positioned(
+          left: 0.0,
+          //top: 120,
+          top: 0.0,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(
+                0xCC000000,
+              ),
+              backgroundBlendMode: BlendMode.softLight,
+            ),
+            width: 65.0,
+            height: 50.0,
+            child: Center(
+              child: StreamBuilder<int>(
+                stream: _stopWatchTimer.rawTime,
+                initialData: _stopWatchTimer.rawTime.value,
+                builder: (context, snap) {
+                  final value = snap.data;
+                  final displayTime = StopWatchTimer.getDisplayTime(value,
+                      milliSecond: false, minute: true, second: true);
+                  return Text(
+                    displayTime,
+                    style: TextStyle(
+                        fontFamily: 'Helvetica', fontWeight: FontWeight.bold),
+                  );
+                },
+              ),
+            ),
+          )),
+    
+    Positioned(
+      right: 15.0,
+      //top: 120,
+      bottom: 20,
+      child: Align(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            // Transform(
+            //   transform: Matrix4.translationValues(
+            //     0.0,
+            //     _translateButton.value * 3.0,
+            //     0.0,
+            //   ),
+            //   child: record(),
+            // ),
+            Transform(
+              transform: Matrix4.translationValues(
+                0.0,
+                _translateButton.value * 2.0,
+                0.0,
+              ),
+              child: isRecording ? record() : stop(),
+            ),
+            Transform(
+              transform: Matrix4.translationValues(
+                0.0,
+                _translateButton.value,
+                0.0,
+              ),
+              child: isPaused ? pause() : resumes(),
+            ),
+            toggle(),
+          ],
         ),
-        Transform(
-          transform: Matrix4.translationValues(
-            0.0,
-            _translateButton.value,
-            0.0,
-          ),
-          child: isPaused ? pause() : resumes(),
-        ),
-        toggle(),
-      ],
-    );
+      ),
+    ),
+    ]);
   }
 }
