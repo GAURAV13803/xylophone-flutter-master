@@ -50,83 +50,99 @@ class _XylophoneState extends State<Xylophone> {
     double height = MediaQuery.of(context).size.width;
     // -Scaffold.of(context).appBarMaxHeight;
 
-    return Container(
-        height: height,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              width: height / 7,
-              child: FlatButton(
-                onPressed: () {
-                  player.play('note1.wav');
-                },
-                color: Colors.red,
-                child: Text(""),
+    return Stack(
+      children: [
+        Container(
+            height: height,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Container(
+                  width: height / 7,
+                  child: FlatButton(
+                    onPressed: () {
+                      player.play('note1.wav');
+                    },
+                    color: Colors.red,
+                    child: Text(""),
+                  ),
+                ),
+                Container(
+                  width: height / 7,
+                  child: FlatButton(
+                    onPressed: () {
+                      player.play('note2.wav');
+                    },
+                    color: Colors.orange,
+                    child: Text(""),
+                  ),
+                ),
+                Container(
+                  width: height / 7,
+                  child: FlatButton(
+                    onPressed: () {
+                      player.play('note3.wav');
+                    },
+                    color: Colors.yellow,
+                    child: Text(""),
+                  ),
+                ),
+                Container(
+                  width: height / 7,
+                  child: FlatButton(
+                    onPressed: () {
+                      player.play('note4.wav');
+                    },
+                    color: Colors.green,
+                    child: Text(""),
+                  ),
+                ),
+                Container(
+                  width: height / 7,
+                  child: FlatButton(
+                    onPressed: () {
+                      player.play('note5.wav');
+                    },
+                    color: Colors.lightGreen,
+                    child: Text(""),
+                  ),
+                ),
+                Container(
+                  width: height / 7,
+                  child: FlatButton(
+                    onPressed: () {
+                      player.play('note6.wav');
+                    },
+                    color: Colors.blue,
+                    child: Text(""),
+                  ),
+                ),
+                Container(
+                  width: height / 7,
+                  child: FlatButton(
+                    onPressed: () {
+                      player.play('note7.wav');
+                    },
+                    color: Colors.purple[300],
+                    child: Text(""),
+                  ),
+                ),
+              ],
+            )),
+        Container(
+            decoration: BoxDecoration(
+              color: Color(
+                0xCC000000,
               ),
+              backgroundBlendMode: BlendMode.softLight,
             ),
-            Container(
-              width: height / 7,
-              child: FlatButton(
-                onPressed: () {
-                  player.play('note2.wav');
-                },
-                color: Colors.orange,
-                child: Text(""),
-              ),
-            ),
-            Container(
-              width: height / 7,
-              child: FlatButton(
-                onPressed: () {
-                  player.play('note3.wav');
-                },
-                color: Colors.yellow,
-                child: Text(""),
-              ),
-            ),
-            Container(
-              width: height / 7,
-              child: FlatButton(
-                onPressed: () {
-                  player.play('note4.wav');
-                },
-                color: Colors.green,
-                child: Text(""),
-              ),
-            ),
-            Container(
-              width: height / 7,
-              child: FlatButton(
-                onPressed: () {
-                  player.play('note5.wav');
-                },
-                color: Colors.lightGreen,
-                child: Text(""),
-              ),
-            ),
-            Container(
-              width: height / 7,
-              child: FlatButton(
-                onPressed: () {
-                  player.play('note6.wav');
-                },
-                color: Colors.blue,
-                child: Text(""),
-              ),
-            ),
-            Container(
-              width: height / 7,
-              child: FlatButton(
-                onPressed: () {
-                  player.play('note7.wav');
-                },
-                color: Colors.purple[300],
-                child: Text(""),
-              ),
-            ),
-          ],
-        ));
+            alignment: Alignment.topRight,
+            //color: Color(0xCC000000),
+            // width: 65.0,
+            // height: 50.0,
+            child: Center(child: Text("00:00"))),
+      ],
+    );
   }
 }
