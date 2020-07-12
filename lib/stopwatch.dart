@@ -15,7 +15,6 @@ class _MyAppState extends State<MyApp> {
     onChangeMinute: (value) => print('onChangeMinute $value'),
   );
 
-  final _scrollController = ScrollController();
 
   @override
   void initState() {

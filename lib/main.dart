@@ -1,10 +1,7 @@
-import 'dart:ui';
 
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:xylophone/recorder.dart';
 
 void main() {
@@ -27,6 +24,7 @@ class _XylophoneAppState extends State<XylophoneApp> {
         darkTheme: ThemeData.dark(),
         home: Scaffold(
           body: Xylophone(),
+          
           //      floatingActionButton: Recorder(),
         ));
   }
@@ -49,7 +47,6 @@ class _XylophoneState extends State<Xylophone> {
 
   @override
   void dispose() async {
-    // TODO: implement dispose
     super.dispose();
   }
 

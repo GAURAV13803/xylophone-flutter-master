@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:io' as io;
 import 'dart:async';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
+import 'package:ext_storage/ext_storage.dart';
 
 class Recorder extends StatefulWidget {
   @override
@@ -235,9 +237,10 @@ class _RecorderState extends State<Recorder>
     } else {
       appDocDirectory = await getExternalStorageDirectory();
     }
-
+    var testDir = await new Directory('storage/emulated/0/Xylophone/recording')
+        .create(recursive: true);
     // can add extension like ".mp4" ".wav" ".m4a" ".aac"
-    customPath = appDocDirectory.path +
+    customPath = testDir.path +
         customPath +
         DateTime.now().millisecondsSinceEpoch.toString();
 
@@ -289,7 +292,8 @@ class _RecorderState extends State<Recorder>
     _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
 
     final snackbar = SnackBar(
-      content: Text("recording saved at: " + '${_recording?.path ?? "-"}'),
+      content: Text(
+          "Recording saved at:  " + '${_recording?.path ?? "-"}'.substring(19)),
     );
     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     setState(() {
@@ -341,51 +345,52 @@ class _RecorderState extends State<Recorder>
       isPaused = !isPaused;
     });
   }
+
   // void _play() {
   //   AudioPlayer player = AudioPlayer();
   //   player.play(_recording.path, isLocal: true);
   // }
+  Widget floatingActionButton() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        // Transform(
+        //   transform: Matrix4.translationValues(
+        //     0.0,
+        //     _translateButton.value * 3.0,
+        //     0.0,
+        //   ),
+        //   child: record(),
+        // ),
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value * 2.0,
+            0.0,
+          ),
+          child: isRecording ? record() : stop(),
+        ),
+        Transform(
+          transform: Matrix4.translationValues(
+            0.0,
+            _translateButton.value,
+            0.0,
+          ),
+          child: isPaused ? pause() : resumes(),
+        ),
+        toggle(),
+      ],
+    );
+  }
 
 //Classes for recorder
   @override
   Widget build(BuildContext context) {
     return Stack(children: [
       Positioned(
-        right: 5,
+        right: 6,
         bottom: 7,
-        child: Align(
-          alignment: Alignment.bottomRight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              // Transform(
-              //   transform: Matrix4.translationValues(
-              //     0.0,
-              //     _translateButton.value * 3.0,
-              //     0.0,
-              //   ),
-              //   child: record(),
-              // ),
-              Transform(
-                transform: Matrix4.translationValues(
-                  0.0,
-                  _translateButton.value * 1.5,
-                  0.0,
-                ),
-                child: isRecording ? record() : stop(),
-              ),
-              Transform(
-                transform: Matrix4.translationValues(
-                  0.0,
-                  _translateButton.value * 0.7,
-                  0.0,
-                ),
-                child: isPaused ? pause() : resumes(),
-              ),
-              toggle(),
-            ],
-          ),
-        ),
+        child: floatingActionButton(),
       ),
       Positioned(
           left: 0.0,
