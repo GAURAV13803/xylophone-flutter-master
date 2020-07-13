@@ -18,14 +18,13 @@ class _XylophoneAppState extends State<XylophoneApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.dark,
-        darkTheme: ThemeData.dark(),
-        home: Scaffold(
-          body: Xylophone(),
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.dark,
+      darkTheme: ThemeData.dark(),
+      home: Xylophone(),
 
-          //      floatingActionButton: Recorder(),
-        ));
+      //      floatingActionButton: Recorder(),
+    );
   }
 }
 
@@ -74,7 +73,6 @@ class _XylophoneState extends State<Xylophone> {
         child: Stack(
           overflow: Overflow.clip,
           children: [
-            Recorder(),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,

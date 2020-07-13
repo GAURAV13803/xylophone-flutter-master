@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'dart:io' as io;
 import 'dart:async';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
@@ -44,6 +45,8 @@ class _RecorderState extends State<Recorder>
 //classes for FAB
   @override
   initState() {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
     _stopWatchTimer.rawTime.listen((value) =>
         print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));
     _stopWatchTimer.minuteTime.listen((value) => print('minuteTime $value'));
@@ -389,6 +392,10 @@ class _RecorderState extends State<Recorder>
 
   SpeedDial buildSpeedDial() {
     return SpeedDial(
+      marginBottom: 10,
+      marginRight: 10,
+      overlayColor: Colors.transparent,
+      closeManually: true,
       animatedIcon: AnimatedIcons.menu_close,
       animatedIconTheme: IconThemeData(size: 22.0),
       // child: Icon(Icons.add),
@@ -420,40 +427,41 @@ class _RecorderState extends State<Recorder>
 //Classes for recorder
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: buildSpeedDial(),
-      body: Stack(children: [
-        
-        Container(
-          decoration: BoxDecoration(
-            color: Color(
-              0xCC000000,
+    return Container(
+      child: Stack(
+        children: [
+          buildSpeedDial(),
+          Positioned(
+            top: 0.0,
+            left: 0.0,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(
+                  0xCC000000,
+                ),
+                backgroundBlendMode: BlendMode.softLight,
+              ),
+              width: 65.0,
+              height: 50.0,
+              child: Center(
+                child: StreamBuilder<int>(
+                  stream: _stopWatchTimer.rawTime,
+                  initialData: _stopWatchTimer.rawTime.value,
+                  builder: (context, snap) {
+                    final value = snap.data;
+                    final displayTime = StopWatchTimer.getDisplayTime(value,
+                        milliSecond: false, minute: true, second: true);
+                    return Text(
+                      displayTime,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    );
+                  },
+                ),
+              ),
             ),
-            backgroundBlendMode: BlendMode.softLight,
           ),
-          width: 65.0,
-          height: 50.0,
-          child: Center(
-            child: StreamBuilder<int>(
-              stream: _stopWatchTimer.rawTime,
-              initialData: _stopWatchTimer.rawTime.value,
-              builder: (context, snap) {
-                final value = snap.data;
-                final displayTime = StopWatchTimer.getDisplayTime(
-                    value,
-                    milliSecond: false,
-                    minute: true,
-                    second: true);
-                return Text(
-                  displayTime,
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold),
-                );
-              },
-            ),
-          ),
-        ),
-      ]),
+        ],
+      ),
     );
   }
 }
