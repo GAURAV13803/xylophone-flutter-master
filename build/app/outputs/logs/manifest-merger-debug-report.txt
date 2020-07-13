@@ -7,7 +7,6 @@ INJECTED from C:\Users\gaurav\xylophone-flutter-master\android\app\src\main\Andr
 MERGED from [:flutter_audio_recorder] C:\Users\gaurav\xylophone-flutter-master\build\flutter_audio_recorder\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:audioplayers] C:\Users\gaurav\xylophone-flutter-master\build\audioplayers\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
 MERGED from [:path_provider] C:\Users\gaurav\xylophone-flutter-master\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
-MERGED from [:ext_storage] C:\Users\gaurav\xylophone-flutter-master\build\ext_storage\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\admin\.gradle\caches\transforms-2\files-2.1\0362ff4d8672321347a402c32368f192\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\admin\.gradle\caches\transforms-2\files-2.1\4932f7e67b26f042b51fa62f1aa4816d\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.loader:loader:1.0.0] C:\Users\admin\.gradle\caches\transforms-2\files-2.1\5276819c062a92c029464122749254f1\loader-1.0.0\AndroidManifest.xml:17:1-22:12
@@ -104,8 +103,6 @@ MERGED from [:audioplayers] C:\Users\gaurav\xylophone-flutter-master\build\audio
 MERGED from [:audioplayers] C:\Users\gaurav\xylophone-flutter-master\build\audioplayers\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-44
 MERGED from [:path_provider] C:\Users\gaurav\xylophone-flutter-master\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] C:\Users\gaurav\xylophone-flutter-master\build\path_provider\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:ext_storage] C:\Users\gaurav\xylophone-flutter-master\build\ext_storage\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
-MERGED from [:ext_storage] C:\Users\gaurav\xylophone-flutter-master\build\ext_storage\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\admin\.gradle\caches\transforms-2\files-2.1\0362ff4d8672321347a402c32368f192\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\admin\.gradle\caches\transforms-2\files-2.1\0362ff4d8672321347a402c32368f192\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\admin\.gradle\caches\transforms-2\files-2.1\4932f7e67b26f042b51fa62f1aa4816d\viewpager-1.0.0\AndroidManifest.xml:20:5-44

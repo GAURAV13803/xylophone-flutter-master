@@ -2,7 +2,6 @@ package io.flutter.plugins;
 
 import io.flutter.plugin.common.PluginRegistry;
 import xyz.luan.audioplayers.AudioplayersPlugin;
-import com.github.yasukotelin.ext_storage.ExtStoragePlugin;
 import com.zeno.flutter_audio_recorder.FlutterAudioRecorderPlugin;
 import io.flutter.plugins.pathprovider.PathProviderPlugin;
 
@@ -15,7 +14,6 @@ public final class GeneratedPluginRegistrant {
       return;
     }
     AudioplayersPlugin.registerWith(registry.registrarFor("xyz.luan.audioplayers.AudioplayersPlugin"));
-    ExtStoragePlugin.registerWith(registry.registrarFor("com.github.yasukotelin.ext_storage.ExtStoragePlugin"));
     FlutterAudioRecorderPlugin.registerWith(registry.registrarFor("com.zeno.flutter_audio_recorder.FlutterAudioRecorderPlugin"));
     PathProviderPlugin.registerWith(registry.registrarFor("io.flutter.plugins.pathprovider.PathProviderPlugin"));
   }

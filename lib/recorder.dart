@@ -1,13 +1,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'dart:io' as io;
 import 'dart:async';
 import 'package:flutter_audio_recorder/flutter_audio_recorder.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:ext_storage/ext_storage.dart';
 
 class Recorder extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _RecorderState extends State<Recorder>
   Animation<Color> _buttonColor;
   Animation<double> _animateIcon;
   Animation<double> _translateButton;
-  Curve _curve = Curves.bounceIn;
+  Curve _curve = Curves.linear;
   double _fabHeight = 56.0;
 //Fab Variable
 
@@ -352,7 +353,7 @@ class _RecorderState extends State<Recorder>
   // }
   Widget floatingActionButton() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         // Transform(
         //   transform: Matrix4.translationValues(
@@ -368,17 +369,50 @@ class _RecorderState extends State<Recorder>
             _translateButton.value * 2.0,
             0.0,
           ),
-          child: isRecording ? record() : stop(),
+          child: isPaused ? pause() : resumes(),
         ),
+
         Transform(
+          transformHitTests: false,
+          //origin: Offset(5,5),
           transform: Matrix4.translationValues(
             0.0,
             _translateButton.value,
             0.0,
           ),
-          child: isPaused ? pause() : resumes(),
+          child: isRecording ? record() : stop(),
         ),
         toggle(),
+      ],
+    );
+  }
+
+  SpeedDial buildSpeedDial() {
+    return SpeedDial(
+      animatedIcon: AnimatedIcons.menu_close,
+      animatedIconTheme: IconThemeData(size: 22.0),
+      // child: Icon(Icons.add),
+      curve: Curves.bounceIn,
+      children: [
+        SpeedDialChild(
+          child: Icon(
+            Icons.mic,
+          ),
+          onTap: () => _startRecording(),
+        ),
+        SpeedDialChild(
+          child: Icon(
+            Icons.pause,
+          ),
+          onTap: () => _pauseRecording(),
+        ),
+        SpeedDialChild(
+          child: Icon(
+            MdiIcons.stopCircle,
+          ),
+          backgroundColor: Colors.black,
+          onTap: () => _stopRecording(),
+        ),
       ],
     );
   }
@@ -386,42 +420,40 @@ class _RecorderState extends State<Recorder>
 //Classes for recorder
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Positioned(
-        right: 6,
-        bottom: 7,
-        child: floatingActionButton(),
-      ),
-      Positioned(
-          left: 0.0,
-          //top: 120,
-          top: 0.0,
-          child: Container(
-            decoration: BoxDecoration(
-              color: Color(
-                0xCC000000,
-              ),
-              backgroundBlendMode: BlendMode.softLight,
+    return Scaffold(
+      floatingActionButton: buildSpeedDial(),
+      body: Stack(children: [
+        
+        Container(
+          decoration: BoxDecoration(
+            color: Color(
+              0xCC000000,
             ),
-            width: 65.0,
-            height: 50.0,
-            child: Center(
-              child: StreamBuilder<int>(
-                stream: _stopWatchTimer.rawTime,
-                initialData: _stopWatchTimer.rawTime.value,
-                builder: (context, snap) {
-                  final value = snap.data;
-                  final displayTime = StopWatchTimer.getDisplayTime(value,
-                      milliSecond: false, minute: true, second: true);
-                  return Text(
-                    displayTime,
-                    style: TextStyle(
-                        fontFamily: 'Helvetica', fontWeight: FontWeight.bold),
-                  );
-                },
-              ),
+            backgroundBlendMode: BlendMode.softLight,
+          ),
+          width: 65.0,
+          height: 50.0,
+          child: Center(
+            child: StreamBuilder<int>(
+              stream: _stopWatchTimer.rawTime,
+              initialData: _stopWatchTimer.rawTime.value,
+              builder: (context, snap) {
+                final value = snap.data;
+                final displayTime = StopWatchTimer.getDisplayTime(
+                    value,
+                    milliSecond: false,
+                    minute: true,
+                    second: true);
+                return Text(
+                  displayTime,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold),
+                );
+              },
             ),
-          )),
-    ]);
+          ),
+        ),
+      ]),
+    );
   }
 }

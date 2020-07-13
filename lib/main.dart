@@ -1,4 +1,3 @@
-
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +23,7 @@ class _XylophoneAppState extends State<XylophoneApp> {
         darkTheme: ThemeData.dark(),
         home: Scaffold(
           body: Xylophone(),
-          
+
           //      floatingActionButton: Recorder(),
         ));
   }
@@ -36,18 +35,33 @@ class Xylophone extends StatefulWidget {
 }
 
 class _XylophoneState extends State<Xylophone> {
-  final player = AudioCache();
-
   @override
   void initState() {
     SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     super.initState();
   }
 
   @override
-  void dispose() async {
+  void dispose() {
     super.dispose();
+  }
+
+  void keyPressed(int soundNumber) {
+    final player = AudioCache();
+    player.play('note$soundNumber.wav');
+  }
+
+  Expanded buildKey({Color color, int soundNumber}) {
+    return Expanded(
+      child: FlatButton(
+        onPressed: () {
+          keyPressed(soundNumber);
+        },
+        color: color,
+        child: null,
+      ),
+    );
   }
 
   @override
@@ -55,91 +69,30 @@ class _XylophoneState extends State<Xylophone> {
     double height = MediaQuery.of(context).size.width;
     // -Scaffold.of(context).appBarMaxHeight;
 
-    return Container(
-      height: height,
-      child: Stack(
-        overflow: Overflow.clip,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                width: height / 7,
-                child: FlatButton(
-                  onPressed: () {
-                    player.play('note1.wav');
-                  },
-                  color: Colors.red,
-                  child: Text(""),
-                ),
-              ),
-              Container(
-                width: height / 7,
-                child: FlatButton(
-                  onPressed: () {
-                    player.play('note2.wav');
-                  },
-                  color: Colors.orange,
-                  child: Text(""),
-                ),
-              ),
-              Container(
-                width: height / 7,
-                child: FlatButton(
-                  onPressed: () {
-                    player.play('note3.wav');
-                  },
-                  color: Colors.yellow,
-                  child: Text(""),
-                ),
-              ),
-              Container(
-                width: height / 7,
-                child: FlatButton(
-                  onPressed: () {
-                    player.play('note4.wav');
-                  },
-                  color: Colors.green,
-                  child: Text(""),
-                ),
-              ),
-              Container(
-                width: height / 7,
-                child: FlatButton(
-                  onPressed: () {
-                    player.play('note5.wav');
-                  },
-                  color: Colors.lightGreen,
-                  child: Text(""),
-                ),
-              ),
-              Container(
-                width: height / 7,
-                child: FlatButton(
-                  onPressed: () {
-                    player.play('note6.wav');
-                  },
-                  color: Colors.blue,
-                  child: Text(""),
-                ),
-              ),
-              Container(
-                width: height / 7,
-                child: FlatButton(
-                  onPressed: () {
-                    player.play('note7.wav');
-                  },
-                  color: Colors.purple[300],
-                  child: Text(""),
-                ),
-              ),
-            ],
-          ),
-          Recorder(),
-        ],
+    return SafeArea(
+      child: Container(
+        child: Stack(
+          overflow: Overflow.clip,
+          children: [
+            Recorder(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                buildKey(color: Colors.red, soundNumber: 1),
+                buildKey(color: Colors.orange, soundNumber: 2),
+                buildKey(color: Colors.yellow, soundNumber: 3),
+                buildKey(color: Colors.lightGreen, soundNumber: 4),
+                buildKey(color: Colors.green, soundNumber: 5),
+                buildKey(color: Colors.blue, soundNumber: 6),
+                buildKey(color: Colors.purple, soundNumber: 7),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+
     //
   }
 }

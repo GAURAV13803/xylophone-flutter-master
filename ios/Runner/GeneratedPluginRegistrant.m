@@ -10,12 +10,6 @@
 @import audioplayers;
 #endif
 
-#if __has_include(<ext_storage/ExtStoragePlugin.h>)
-#import <ext_storage/ExtStoragePlugin.h>
-#else
-@import ext_storage;
-#endif
-
 #if __has_include(<flutter_audio_recorder/FlutterAudioRecorderPlugin.h>)
 #import <flutter_audio_recorder/FlutterAudioRecorderPlugin.h>
 #else
@@ -32,7 +26,6 @@
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
   [AudioplayersPlugin registerWithRegistrar:[registry registrarForPlugin:@"AudioplayersPlugin"]];
-  [ExtStoragePlugin registerWithRegistrar:[registry registrarForPlugin:@"ExtStoragePlugin"]];
   [FlutterAudioRecorderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FlutterAudioRecorderPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
 }
